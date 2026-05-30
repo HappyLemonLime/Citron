@@ -32241,7 +32241,7 @@ You should be redirected to the song at:<br /><br />
                 this._updateCursorPitch();
                 if (this._mouseDown)
                     this._playLiveInput();
-                if (!this._doc.prefs.showLetters)
+                if (!this._doc.prefs.showPianoKeys)
                     return;
                 if (this._renderedScale == this._doc.song.scale && this._renderedKey == this._doc.song.key && this._renderedDrums == isDrum && this._renderedMod == isMod && this._renderedPitchCount == this._pitchCount)
                     return;
@@ -34159,7 +34159,7 @@ You should be redirected to the song at:<br /><br />
             this._volumeBarBox = div({ class: "playback-volume-bar", style: "height: 12px; align-self: center;" }, this._volumeBarContainer);
             this._fileMenu = select({ style: "width: 100%;" }, option({ selected: true, disabled: true, hidden: false }, "File"), option({ value: "new" }, "+ New Blank Song"), option({ value: "import" }, "↑ Import Song... (" + EditorConfig.ctrlSymbol + "O)"), option({ value: "export" }, "↓ Export Song... (" + EditorConfig.ctrlSymbol + "S)"), option({ value: "copyUrl" }, "⎘ Copy Song URL"), option({ value: "shareUrl" }, "⤳ Share Song URL"), option({ value: "shortenUrl" }, "… Shorten Song URL"), option({ value: "viewPlayer" }, "▶ View in Song Player"), option({ value: "copyEmbed" }, "⎘ Copy HTML Embed Code"), option({ value: "songRecovery" }, "⚠ Recover Recent Song..."));
             this._editMenu = select({ style: "width: 100%;" }, option({ selected: true, disabled: true, hidden: false }, "Edit"), option({ value: "undo" }, "Undo (Z)"), option({ value: "redo" }, "Redo (Y)"), option({ value: "copy" }, "Copy Pattern (C)"), option({ value: "pasteNotes" }, "Paste Pattern Notes (V)"), option({ value: "pasteNumbers" }, "Paste Pattern Numbers (" + EditorConfig.ctrlSymbol + "⇧V)"), option({ value: "insertBars" }, "Insert Bar (⏎)"), option({ value: "deleteBars" }, "Delete Selected Bars (⌫)"), option({ value: "insertChannel" }, "Insert Channel (" + EditorConfig.ctrlSymbol + "⏎)"), option({ value: "deleteChannel" }, "Delete Selected Channels (" + EditorConfig.ctrlSymbol + "⌫)"), option({ value: "selectChannel" }, "Select Channel (⇧A)"), option({ value: "selectAll" }, "Select All (A)"), option({ value: "duplicatePatterns" }, "Duplicate Reused Patterns (D)"), option({ value: "transposeUp" }, "Move Notes Up (+ or ⇧+)"), option({ value: "transposeDown" }, "Move Notes Down (- or ⇧-)"), option({ value: "moveNotesSideways" }, "Move All Notes Sideways... (W)"), option({ value: "beatsPerBar" }, "Change Beats Per Bar..."), option({ value: "barCount" }, "Change Song Length... (L)"), option({ value: "channelSettings" }, "Channel Settings... (Q)"), option({ value: "limiterSettings" }, "Limiter Settings... (⇧L)"));
-            this._optionsMenu = select({ style: "width: 100%;" }, option({ selected: true, disabled: true, hidden: false }, "Preferences"), option({ value: "autoPlay" }, "Auto Play on Load"), option({ value: "autoFollow" }, "Auto Follow Playhead"), option({ value: "enableNotePreview" }, "Hear Added Notes"), option({ value: "showLetters" }, "Show Piano Keys"), option({ value: "showFifth" }, 'Highlight "Fifth" Note'), option({ value: "notesOutsideScale" }, "Place Notes Out of Scale"), option({ value: "setDefaultScale" }, "Set Current Scale as Default"), option({ value: "showChannels" }, "Show All Channels"), option({ value: "showScrollBar" }, "Show Octave Scroll Bar"), option({ value: "alwaysFineNoteVol" }, "Always Fine Note Volume"), option({ value: "enableChannelMuting" }, "Enable Channel Muting"), option({ value: "displayBrowserUrl" }, "Show Song Data in URL"), option({ value: "displayVolumeBar" }, "Show Playback Volume"), option({ value: "layout" }, "Set Layout..."), option({ value: "colorTheme" }, "Set Theme..."), option({ value: "recordingSetup" }, "Note Recording..."));
+            this._optionsMenu = select({ style: "width: 100%;" }, option({ selected: true, disabled: true, hidden: false }, "Preferences"), option({ value: "autoPlay" }, "Auto Play on Load"), option({ value: "autoFollow" }, "Auto Follow Playhead"), option({ value: "enableNotePreview" }, "Hear Added Notes"), option({ value: "showPianoKeys" }, "Show Piano Keys"), option({ value: "showFifth" }, 'Highlight "Fifth" Note'), option({ value: "notesOutsideScale" }, "Place Notes Out of Scale"), option({ value: "setDefaultScale" }, "Set Current Scale as Default"), option({ value: "showChannels" }, "Show All Channels"), option({ value: "showScrollBar" }, "Show Octave Scroll Bar"), option({ value: "alwaysFineNoteVol" }, "Always Fine Note Volume"), option({ value: "enableChannelMuting" }, "Enable Channel Muting"), option({ value: "displayBrowserUrl" }, "Show Song Data in URL"), option({ value: "displayVolumeBar" }, "Show Playback Volume"), option({ value: "layout" }, "Set Layout..."), option({ value: "colorTheme" }, "Set Theme..."), option({ value: "recordingSetup" }, "Note Recording..."));
             this._scaleSelect = buildOptions(select(), Config.scales.map(scale => scale.name));
             this._keySelect = buildOptions(select(), Config.keys.map(key => key.name).reverse());
             this._tempoSlider = new Slider(input({ style: "margin: 0; vertical-align: middle;", type: "range", min: "1", max: "1000", value: "160", step: "1" }), this._doc, (oldValue, newValue) => new ChangeTempo(this._doc, oldValue, newValue), false);
@@ -34429,7 +34429,7 @@ You should be redirected to the song at:<br /><br />
                 if (document.activeElement != this._patternEditor.modDragValueLabel && this._patternEditor.editingModLabel) {
                     this._patternEditor.stopEditingModLabel(false);
                 }
-                this._piano.container.style.display = prefs.showLetters ? "" : "none";
+                this._piano.container.style.display = prefs.showPianoKeys ? "" : "none";
                 this._octaveScrollBar.container.style.display = prefs.showScrollBar ? "" : "none";
                 this._barScrollBar.container.style.display = this._doc.song.barCount > this._doc.trackVisibleBars ? "" : "none";
                 this._volumeBarBox.style.display = this._doc.prefs.displayVolumeBar ? "" : "none";
@@ -34468,7 +34468,7 @@ You should be redirected to the song at:<br /><br />
                     (prefs.autoPlay ? "✓ " : "　") + "Auto Play on Load",
                     (prefs.autoFollow ? "✓ " : "　") + "Auto Follow Playhead",
                     (prefs.enableNotePreview ? "✓ " : "　") + "Hear Added Notes",
-                    (prefs.showLetters ? "✓ " : "　") + "Show Piano Keys",
+                    (prefs.showPianoKeys ? "✓ " : "　") + "Show Piano Keys",
                     (prefs.showFifth ? "✓ " : "　") + 'Highlight "Fifth" Note',
                     (prefs.notesOutsideScale ? "✓ " : "　") + "Place Notes Out of Scale",
                     (prefs.defaultScale == this._doc.song.scale ? "✓ " : "　") + "Set Current Scale as Default",
@@ -35782,7 +35782,7 @@ You should be redirected to the song at:<br /><br />
                             this._doc.prefs.showFifth = true;
                             this._doc.prefs.notesOutsideScale = false;
                             this._doc.prefs.defaultScale = 0;
-                            this._doc.prefs.showLetters = true;
+                            this._doc.prefs.showPianoKeys = true;
                             this._doc.prefs.showChannels = true;
                             this._doc.prefs.showScrollBar = true;
                             this._doc.prefs.alwaysFineNoteVol = false;
@@ -36593,8 +36593,8 @@ You should be redirected to the song at:<br /><br />
                     case "enableNotePreview":
                         this._doc.prefs.enableNotePreview = !this._doc.prefs.enableNotePreview;
                         break;
-                    case "showLetters":
-                        this._doc.prefs.showLetters = !this._doc.prefs.showLetters;
+                    case "showPianoKeys":
+                        this._doc.prefs.showPianoKeys = !this._doc.prefs.showPianoKeys;
                         break;
                     case "showFifth":
                         this._doc.prefs.showFifth = !this._doc.prefs.showFifth;
@@ -38668,7 +38668,7 @@ You should be redirected to the song at:<br /><br />
             this.enableNotePreview = window.localStorage.getItem("enableNotePreview") != "false";
             this.showFifth = window.localStorage.getItem("showFifth") != "false";
             this.notesOutsideScale = window.localStorage.getItem("notesOutsideScale") != "false";
-            this.showLetters = window.localStorage.getItem("showLetters") == "true";
+            this.showPianoKeys = window.localStorage.getItem("showPianoKeys") != "false";
             this.showChannels = window.localStorage.getItem("showChannels") == "true";
             this.showScrollBar = window.localStorage.getItem("showScrollBar") != "false";
             this.alwaysFineNoteVol = window.localStorage.getItem("alwaysFineNoteVol") != "false";
@@ -38706,7 +38706,7 @@ You should be redirected to the song at:<br /><br />
             window.localStorage.setItem("showFifth", this.showFifth ? "true" : "false");
             window.localStorage.setItem("notesOutsideScale", this.notesOutsideScale ? "true" : "false");
             window.localStorage.setItem("defaultScale", Config.scales[this.defaultScale].name);
-            window.localStorage.setItem("showLetters", this.showLetters ? "true" : "false");
+            window.localStorage.setItem("showPianoKeys", this.showPianoKeys ? "true" : "false");
             window.localStorage.setItem("showChannels", this.showChannels ? "true" : "false");
             window.localStorage.setItem("showScrollBar", this.showScrollBar ? "true" : "false");
             window.localStorage.setItem("alwaysFineNoteVol", this.alwaysFineNoteVol ? "true" : "false");
